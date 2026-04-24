@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RustDesk — Jonathan Ellis support</title>
+<meta name="description" content="Install RustDesk to let Jonathan Ellis provide remote support. Free, secure, private — self-hosted on his own server.">
+<link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <a class="brand" href="/">
+      <img src="/public/logo.svg" alt="JE">
+      Jonathan Ellis<span class="dot">.</span>Dev
+    </a>
+    <ul>
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/install/">Install</a></li>
+      <li><a href="/key/">Key</a></li>
+      <li><a href="/test/">Test</a></li>
+    </ul>
+  </nav>
+
+  <div class="kicker">Remote support</div>
+  <h1>Let me see your screen. <em>Privately.</em></h1>
+  <p class="lede">
+    RustDesk is a free, open-source remote desktop tool. When you install it and connect to my server, I can see your screen (with your permission) and help diagnose what's going on. Sessions are encrypted, peer-to-peer, and never touch a third-party cloud — the whole thing runs on my own server in Nuremberg.
+  </p>
+
+  <div class="btn-row">
+    <a class="btn primary" href="/install/">Install RustDesk <span>→</span></a>
+    <a class="btn" href="#how-it-works">How it works</a>
+  </div>
+
+  <h2 id="how-it-works">How it works in 30 seconds</h2>
+  <ol class="steps">
+    <li>You download RustDesk from the <a href="/install/">install page</a>. It's pre-configured for my server — no settings to fiddle with.</li>
+    <li>You open the app. You'll see a 9-digit <strong>ID</strong> and a <strong>password</strong>.</li>
+    <li>You tell me your ID + password (phone, email, text — however).</li>
+    <li>I connect from my end. You see a prompt: <em>"Jonathan wants to view your screen. Accept?"</em> Click Accept.</li>
+    <li>I see your screen. For Windows/Mac/Linux, I can also move your mouse and type for you. On iPhone, I can only see — Apple doesn't let any remote app tap the screen.</li>
+    <li>When I'm done, I disconnect. You can uninstall RustDesk anytime.</li>
+  </ol>
+
+  <h2>Pick your platform</h2>
+  <p>Click your operating system to go to the right install instructions:</p>
+
+  <div class="platform-grid">
+    <a class="platform" href="/install/#windows">
+      <div class="os">Windows</div>
+      <div class="ext">10, 11</div>
+    </a>
+    <a class="platform" href="/install/#mac">
+      <div class="os">macOS</div>
+      <div class="ext">12+</div>
+    </a>
+    <a class="platform" href="/install/#linux">
+      <div class="os">Linux</div>
+      <div class="ext">deb · rpm · AppImage</div>
+    </a>
+    <a class="platform" href="/install/#ios">
+      <div class="os">iPhone / iPad</div>
+      <div class="ext">App Store</div>
+    </a>
+    <a class="platform" href="/install/#android">
+      <div class="os">Android</div>
+      <div class="ext">Play Store · APK</div>
+    </a>
+  </div>
+
+  <h2>Common questions</h2>
+
+  <div class="card">
+    <h3>Is this safe? Can you see my stuff when I'm not there?</h3>
+    <p>No. I can only connect when you click "Accept" on your screen, and I only see what's there while we're connected. When you close RustDesk — or just click "Disconnect" — I'm out. You can uninstall the app completely after we're done if you want.</p>
+  </div>
+
+  <div class="card">
+    <h3>Do I have to pay? Is there a time limit?</h3>
+    <p>No and no. RustDesk is free and open-source, and I run the server myself — so no 40-minute Zoom cutoffs, no "you've hit your free tier" nonsense. Sessions can last as long as we need.</p>
+  </div>
+
+  <div class="card">
+    <h3>What data goes through your server?</h3>
+    <p>Only the initial "handshake" that pairs my computer to yours. Once paired, the video/audio/control stream goes <strong>directly</strong> between our two computers (peer-to-peer, encrypted). My server just introduces us and then steps out.</p>
+  </div>
+
+  <div class="card">
+    <h3>Can you control my iPhone too?</h3>
+    <p>I can <em>see</em> your iPhone screen if you start Screen Broadcast in RustDesk, but I can't tap or swipe for you — Apple blocks that for all third-party apps. For iPhone problems, we usually work through it verbally: you tap, I watch and guide.</p>
+  </div>
+
+  <div class="card">
+    <h3>What if it doesn't connect?</h3>
+    <p>Head to the <a href="/test/">test page</a>. It checks whether your computer can reach my server. If the test fails, your firewall or corporate network might be blocking the connection — message me and we'll figure out an alternative.</p>
+  </div>
+
+  <footer>
+    <div>© 2026 Jonathan Ellis · jonathanellis.dev</div>
+    <div>
+      <a href="mailto:hello@jonathanellis.ca">hello@jonathanellis.ca</a> ·
+      <a href="https://jonathanellis.ca">Portfolio</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

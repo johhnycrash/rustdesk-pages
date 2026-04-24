@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+dist/
+.env
+*.log
+.vscode/
+.idea/
+downloads/*.exe
+downloads/*.dmg
+downloads/*.deb
+downloads/*.rpm
+downloads/*.AppImage
+# ^ large binaries committed separately or via GitHub releases, not in the repo

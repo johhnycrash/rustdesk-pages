@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RustDesk public key — Jonathan Ellis</title>
+<meta name="description" content="Public key and server settings for connecting to Jonathan Ellis's RustDesk server.">
+<link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <a class="brand" href="/">
+      <img src="/public/logo.svg" alt="JE">
+      Jonathan Ellis<span class="dot">.</span>Dev
+    </a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/install/">Install</a></li>
+      <li><a href="/key/" class="active">Key</a></li>
+      <li><a href="/test/">Test</a></li>
+    </ul>
+  </nav>
+
+  <div class="kicker">Server settings</div>
+  <h1>Public key <em>&amp;</em> server address</h1>
+  <p class="lede">
+    If you're configuring RustDesk manually (iOS, Android, or if the pre-configured installer didn't work), paste these three values into the app's <strong>Settings → Network</strong>.
+  </p>
+
+  <div class="card">
+    <h3>ID server</h3>
+    <p style="margin-bottom: 12px;">The address where RustDesk looks me up.</p>
+    <code class="key key-block" id="id-server">rustdesk.jonathanellis.dev</code>
+    <button class="copy-btn" data-target="id-server">Copy</button>
+  </div>
+
+  <div class="card">
+    <h3>Relay server</h3>
+    <p style="margin-bottom: 12px;">Same address — handles fallback when direct connection isn't possible.</p>
+    <code class="key key-block" id="relay-server">rustdesk.jonathanellis.dev</code>
+    <button class="copy-btn" data-target="relay-server">Copy</button>
+  </div>
+
+  <div class="card">
+    <h3>Public key</h3>
+    <p style="margin-bottom: 12px;">Identity proof — confirms you're connecting to my real server, not an imposter.</p>
+    <code class="key key-block" id="pubkey">JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=</code>
+    <button class="copy-btn" data-target="pubkey">Copy</button>
+  </div>
+
+  <h2>Where do I paste these?</h2>
+  <ol class="steps">
+    <li>Open RustDesk.</li>
+    <li>Tap or click the <strong>⚙ Settings</strong> / three-dot menu.</li>
+    <li>Go to <strong>Network</strong>.</li>
+    <li>Paste each value into the matching field. Tap <strong>Apply</strong>.</li>
+    <li>You're ready. Go back to the main screen, send me your ID + password.</li>
+  </ol>
+
+  <p style="margin-top: 30px;">Still stuck? Run the <a href="/test/">connection test</a> or head back to <a href="/install/">full install instructions</a>.</p>
+
+  <footer>
+    <div>© 2026 Jonathan Ellis · jonathanellis.dev</div>
+    <div>
+      <a href="/">Home</a> ·
+      <a href="/install/">Install</a> ·
+      <a href="/test/">Test</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const target = document.getElementById(btn.dataset.target);
+    try {
+      await navigator.clipboard.writeText(target.textContent.trim());
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 1600);
+    } catch (e) {
+      btn.textContent = 'Select manually';
+    }
+  });
+});
+</script>
+</body>
+</html>

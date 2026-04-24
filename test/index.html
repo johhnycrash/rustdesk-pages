@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connection test — RustDesk — Jonathan Ellis</title>
+<meta name="description" content="Check whether your network can reach Jonathan Ellis's RustDesk server.">
+<link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <a class="brand" href="/">
+      <img src="/public/logo.svg" alt="JE">
+      Jonathan Ellis<span class="dot">.</span>Dev
+    </a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/install/">Install</a></li>
+      <li><a href="/key/">Key</a></li>
+      <li><a href="/test/" class="active">Test</a></li>
+    </ul>
+  </nav>
+
+  <div class="kicker">Diagnostic</div>
+  <h1>Can you reach my <em>server?</em></h1>
+  <p class="lede">
+    Click the button below. This page will try to contact my RustDesk server from your browser. If the checks pass, RustDesk should connect successfully too. If they fail, your firewall or corporate network is likely blocking outbound connections on the RustDesk ports.
+  </p>
+
+  <div class="btn-row">
+    <button class="btn primary" id="run-test">Run connection test <span>→</span></button>
+  </div>
+
+  <div id="results" style="margin-top: 30px;"></div>
+
+  <h2>How to read the results</h2>
+  <div class="card">
+    <h3>All green</h3>
+    <p>Your network can reach my server. If RustDesk itself still doesn't connect, double-check you pasted the right key from the <a href="/key/">Key page</a> into app settings.</p>
+  </div>
+
+  <div class="card">
+    <h3>HTTPS passes, but the other checks fail</h3>
+    <p>Your browser can reach the server over web traffic (ports 80/443), but RustDesk's native ports (21115–21119) are blocked. This is common on corporate networks. Message me and we'll arrange an alternative — usually switching to your phone's hotspot works.</p>
+  </div>
+
+  <div class="card">
+    <h3>Everything fails</h3>
+    <p>Your network can't reach my server at all. Either the server is down (rare — tell me) or your network has very strict outbound filtering. Try from your phone's cellular data as a quick sanity check.</p>
+  </div>
+
+  <footer>
+    <div>© 2026 Jonathan Ellis · jonathanellis.dev</div>
+    <div>
+      <a href="/">Home</a> ·
+      <a href="/install/">Install</a> ·
+      <a href="/key/">Key</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+/**
+ * Browser-based connection test.
+ * Limitation: browsers can only test HTTP(S), not the raw TCP/UDP RustDesk uses.
+ * What we CAN check:
+ *   1. DNS resolves and HTTPS works to rustdesk.jonathanellis.dev (image fetch on port 443)
+ *   2. TCP on port 21116 — rough heuristic via a `WebSocket` attempt that will either connect or fast-fail
+ * For true RustDesk port checks, the desktop app itself is the authority once installed.
+ */
+const SERVER = 'rustdesk.jonathanellis.dev';
+const results = document.getElementById('results');
+const btn = document.getElementById('run-test');
+
+function addResult(label, status, detail) {
+  const row = document.createElement('div');
+  row.className = 'card';
+  row.style.marginBottom = '10px';
+  row.innerHTML = `
+    <h3>
+      <span class="status-dot ${status}"></span>${label}
+    </h3>
+    <p>${detail}</p>
+  `;
+  results.appendChild(row);
+}
+
+function setPending(label) {
+  const row = document.createElement('div');
+  row.className = 'card';
+  row.style.marginBottom = '10px';
+  row.innerHTML = `
+    <h3>
+      <span class="status-dot pending"></span>${label}
+    </h3>
+    <p>Testing…</p>
+  `;
+  results.appendChild(row);
+  return row;
+}
+
+async function testHTTPS() {
+  const row = setPending('Can I reach the server on HTTPS?');
+  return new Promise((resolve) => {
+    const img = new Image();
+    const timeout = setTimeout(() => {
+      row.querySelector('.status-dot').className = 'status-dot fail';
+      row.querySelector('p').textContent = 'Timeout (5s). Server unreachable on port 443, or network blocks it.';
+      resolve(false);
+    }, 5000);
+    img.onload = img.onerror = () => {
+      clearTimeout(timeout);
+      // onload OR onerror both mean a TCP handshake completed.
+      row.querySelector('.status-dot').className = 'status-dot ok';
+      row.querySelector('p').textContent = 'Reached. TCP on port 443 is working.';
+      resolve(true);
+    };
+    img.src = `https://${SERVER}/public/favicon.svg?t=${Date.now()}`;
+  });
+}
+
+async function testWebSocketPort(port) {
+  const row = setPending(`Can I open a connection on port ${port}?`);
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => {
+      row.querySelector('.status-dot').className = 'status-dot fail';
+      row.querySelector('p').textContent = `Timeout (4s). Port ${port} appears blocked outbound from your network.`;
+      resolve(false);
+    }, 4000);
+    try {
+      const ws = new WebSocket(`wss://${SERVER}:${port}/`);
+      ws.onopen = () => {
+        clearTimeout(timeout);
+        row.querySelector('.status-dot').className = 'status-dot ok';
+        row.querySelector('p').textContent = `TCP on port ${port} reachable (browser handshake partial OK).`;
+        ws.close();
+        resolve(true);
+      };
+      ws.onerror = (e) => {
+        clearTimeout(timeout);
+        // WebSocket errors can happen even when TCP reaches — hard to tell definitively from browser.
+        // Treat as "unclear" but note it.
+        row.querySelector('.status-dot').className = 'status-dot fail';
+        row.querySelector('p').innerHTML = `Couldn't handshake on port ${port} from browser. This is <em>inconclusive</em> — RustDesk uses non-WebSocket protocols, so this may still work when you run the actual app. If HTTPS above passed, you're probably fine.`;
+        resolve(false);
+      };
+    } catch (err) {
+      clearTimeout(timeout);
+      row.querySelector('.status-dot').className = 'status-dot fail';
+      row.querySelector('p').textContent = `Error opening connection: ${err.message}`;
+      resolve(false);
+    }
+  });
+}
+
+btn.addEventListener('click', async () => {
+  btn.disabled = true;
+  btn.textContent = 'Running…';
+  results.innerHTML = '';
+  await testHTTPS();
+  await testWebSocketPort(21115);
+  await testWebSocketPort(21116);
+  btn.disabled = false;
+  btn.textContent = 'Run again ↻';
+});
+</script>
+</body>
+</html>

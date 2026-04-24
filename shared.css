@@ -1,0 +1,254 @@
+/* Jonathan Ellis brand — shared across rustdesk pages */
+:root {
+  --green: #00ff40;
+  --charcoal: #25272b;
+  --ink: #0c0d0f;
+  --bone: #efefef;
+  --bone-dim: rgba(239, 239, 239, 0.7);
+  --muted: rgba(239, 239, 239, 0.45);
+  --line: rgba(239, 239, 239, 0.12);
+  --card: rgba(239, 239, 239, 0.025);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  min-height: 100%;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 28px 80px;
+}
+nav.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 40px;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+nav.top .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--bone);
+  text-decoration: none;
+  letter-spacing: 0.2em;
+}
+nav.top .brand img { width: 22px; height: 22px; }
+nav.top .brand span.dot { color: var(--green); }
+nav.top ul { list-style: none; display: flex; gap: 22px; }
+nav.top a {
+  color: var(--bone-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+nav.top a:hover, nav.top a.active { color: var(--green); }
+
+h1 {
+  font-family: 'Cormorant', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+}
+h1 em {
+  color: var(--green);
+  font-style: italic;
+}
+.kicker {
+  color: var(--green);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.lede {
+  font-size: clamp(16px, 1.3vw, 19px);
+  color: var(--bone-dim);
+  max-width: 620px;
+  margin-bottom: 40px;
+}
+h2 {
+  font-family: 'Cormorant', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(26px, 2.6vw, 34px);
+  margin: 48px 0 14px;
+  letter-spacing: -0.01em;
+}
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 22px 0 8px;
+  color: var(--bone);
+}
+p { margin-bottom: 14px; color: var(--bone-dim); }
+a { color: var(--green); }
+a:hover { text-decoration: underline; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--bone);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  background: var(--card);
+  transition: all 0.25s ease;
+}
+.btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.btn.primary {
+  background: var(--green);
+  color: var(--ink);
+  border-color: var(--green);
+}
+.btn.primary:hover {
+  background: transparent;
+  color: var(--green);
+}
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px 26px;
+  margin-bottom: 18px;
+}
+.card h3 { margin-top: 0; color: var(--green); }
+code, .key {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  background: rgba(0, 255, 64, 0.08);
+  border: 1px solid rgba(0, 255, 64, 0.2);
+  color: var(--green);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.key-block {
+  display: block;
+  padding: 16px 18px;
+  word-break: break-all;
+  font-size: 14px;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.platform {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 20px;
+  text-align: center;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  color: var(--bone);
+}
+.platform:hover {
+  border-color: var(--green);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+.platform .os { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.platform .ext { color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.platform.recommended { border-color: var(--green); }
+.platform.recommended::before {
+  content: 'For you';
+  display: inline-block;
+  color: var(--green);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.steps { list-style: none; counter-reset: step; margin: 10px 0 20px; }
+.steps li {
+  counter-increment: step;
+  padding-left: 42px;
+  position: relative;
+  margin-bottom: 12px;
+  color: var(--bone-dim);
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0; top: 0;
+  width: 28px; height: 28px;
+  background: rgba(0, 255, 64, 0.1);
+  border: 1px solid rgba(0, 255, 64, 0.3);
+  color: var(--green);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600;
+  font-family: ui-monospace, monospace;
+}
+
+footer {
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+footer a { color: var(--bone-dim); }
+
+.copy-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--bone);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+.copy-btn:hover { border-color: var(--green); color: var(--green); }
+.copy-btn.copied { color: var(--green); border-color: var(--green); }
+
+.status-dot {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.status-dot.ok { background: var(--green); box-shadow: 0 0 10px var(--green); }
+.status-dot.fail { background: #ff3b30; }
+.status-dot.pending { background: #fbbf24; animation: pulse 1s ease infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+@media (max-width: 640px) {
+  .wrap { padding: 24px 18px 60px; }
+  nav.top ul { gap: 14px; }
+}

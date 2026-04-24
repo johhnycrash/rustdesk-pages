@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Install RustDesk — Jonathan Ellis</title>
+<meta name="description" content="Platform-specific instructions to install RustDesk and connect to Jonathan Ellis's server.">
+<link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <a class="brand" href="/">
+      <img src="/public/logo.svg" alt="JE">
+      Jonathan Ellis<span class="dot">.</span>Dev
+    </a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/install/" class="active">Install</a></li>
+      <li><a href="/key/">Key</a></li>
+      <li><a href="/test/">Test</a></li>
+    </ul>
+  </nav>
+
+  <div class="kicker">Step by step</div>
+  <h1>Install RustDesk <em>for your device</em></h1>
+  <p class="lede">
+    Pick your operating system below. Each option is pre-configured to connect to my server, so you don't have to copy/paste server settings or public keys manually.
+  </p>
+
+  <!-- WINDOWS -->
+  <h2 id="windows">Windows</h2>
+  <p><strong>Easiest path:</strong> download the pre-configured installer. The filename contains the server settings, so RustDesk reads them automatically when you install — you don't touch a single setting.</p>
+  <div class="btn-row">
+    <a class="btn primary" href="/downloads/rustdesk-host=rustdesk.jonathanellis.dev,key=JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=.exe" download>Download Windows installer <span>→</span></a>
+  </div>
+  <ol class="steps">
+    <li>Click the green button above. Save the `.exe` file. <strong>Don't rename it</strong> — the filename is what configures it.</li>
+    <li>Double-click the downloaded file. If Windows SmartScreen pops up ("Windows protected your PC"), click <em>More info</em> → <em>Run anyway</em>. The file is safe; this warning appears for all small publishers.</li>
+    <li>Follow the install prompts. Default options are fine.</li>
+    <li>Open RustDesk. You'll see <strong>Your ID</strong> and a <strong>password</strong> on the left. Send me both.</li>
+    <li>Wait for my connection request. Click <em>Accept</em> when you see it.</li>
+  </ol>
+
+  <!-- MAC -->
+  <h2 id="mac">macOS</h2>
+  <p>Install the standard RustDesk app, then run a one-line command that tells it to use my server.</p>
+  <ol class="steps">
+    <li>Download the macOS app: <a href="https://github.com/rustdesk/rustdesk/releases/latest" target="_blank">latest release from GitHub</a>. Grab the `.dmg` for your chip (Apple Silicon: `aarch64.dmg`; Intel: `x86_64.dmg`).</li>
+    <li>Open the `.dmg` and drag RustDesk to Applications.</li>
+    <li>Open Terminal (Cmd+Space → "Terminal"). Paste and press Enter:
+      <pre style="background: rgba(0,255,64,0.05); border: 1px solid rgba(0,255,64,0.2); padding: 14px; border-radius: 8px; font-size: 13px; color: var(--green); overflow-x: auto; margin: 10px 0;">mkdir -p ~/Library/Preferences/com.carriez.RustDesk && cat &gt; ~/Library/Preferences/com.carriez.RustDesk/RustDesk2.toml &lt;&lt;EOF
+[options]
+custom-rendezvous-server = 'rustdesk.jonathanellis.dev'
+relay-server = 'rustdesk.jonathanellis.dev'
+key = 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk='
+EOF</pre>
+    </li>
+    <li>Open RustDesk (Cmd+Space → "RustDesk"). Grant Screen Recording permission when macOS asks.</li>
+    <li>Copy your ID + password from the left side of the app. Send both to me.</li>
+  </ol>
+
+  <!-- LINUX -->
+  <h2 id="linux">Linux</h2>
+  <p>Install the package for your distro, then drop in the config file.</p>
+  <ol class="steps">
+    <li>Grab the package: <a href="https://github.com/rustdesk/rustdesk/releases/latest" target="_blank">latest release on GitHub</a>.
+      <ul style="margin-top: 6px; color: var(--bone-dim); padding-left: 20px;">
+        <li>Ubuntu/Debian → `.deb`</li>
+        <li>Fedora/CentOS → `.rpm`</li>
+        <li>Any distro → `.AppImage` (no install needed)</li>
+      </ul>
+    </li>
+    <li>Install it: <code>sudo apt install ./rustdesk-*.deb</code> (or your distro's equivalent).</li>
+    <li>Drop the config file:
+      <pre style="background: rgba(0,255,64,0.05); border: 1px solid rgba(0,255,64,0.2); padding: 14px; border-radius: 8px; font-size: 13px; color: var(--green); overflow-x: auto; margin: 10px 0;">mkdir -p ~/.config/rustdesk && cat &gt; ~/.config/rustdesk/RustDesk2.toml &lt;&lt;EOF
+[options]
+custom-rendezvous-server = 'rustdesk.jonathanellis.dev'
+relay-server = 'rustdesk.jonathanellis.dev'
+key = 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk='
+EOF</pre>
+    </li>
+    <li>Launch RustDesk from your apps menu. Share ID + password.</li>
+  </ol>
+
+  <!-- iOS -->
+  <h2 id="ios">iPhone / iPad</h2>
+  <p>Apple doesn't let apps ship pre-configured, so there's one extra step: paste a config string into the app.</p>
+  <ol class="steps">
+    <li>Install from App Store: <a href="https://apps.apple.com/app/rustdesk/id1581225015" target="_blank">RustDesk on the App Store</a>.</li>
+    <li>Open the app. Tap the <strong>⚙ Settings</strong> icon (top right or in the menu).</li>
+    <li>Tap <strong>Network</strong>.</li>
+    <li>Fill in:
+      <ul style="margin-top: 6px; color: var(--bone-dim); padding-left: 20px;">
+        <li><strong>ID server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Relay server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Key:</strong> <a href="/key/">open the Key page</a> and tap the Copy button, then paste here.</li>
+      </ul>
+    </li>
+    <li>Tap Apply / Save. Back out to the main screen.</li>
+    <li>Tap your <strong>ID</strong> (or "Set up password" if prompted) to get your connection credentials. Send ID + password to me.</li>
+    <li>When I request connection, tap <em>Accept</em>. For me to see your screen, tap <em>Start Broadcast</em> when prompted — this is Apple's screen-share permission.</li>
+  </ol>
+
+  <!-- ANDROID -->
+  <h2 id="android">Android</h2>
+  <ol class="steps">
+    <li>Install from Play Store: <a href="https://play.google.com/store/apps/details?id=com.carriez.flutter_hbb" target="_blank">RustDesk on Play Store</a>. Or grab the `.apk` from <a href="https://github.com/rustdesk/rustdesk/releases/latest" target="_blank">GitHub releases</a> if Play Store isn't available.</li>
+    <li>Open the app. Grant Screen Capture and Input permissions when asked.</li>
+    <li>Go to <strong>Settings → Network</strong>. Enter:
+      <ul style="margin-top: 6px; color: var(--bone-dim); padding-left: 20px;">
+        <li><strong>ID server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Relay server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Key:</strong> copy from the <a href="/key/">Key page</a>.</li>
+      </ul>
+    </li>
+    <li>Apply. Share your ID + password when I ask.</li>
+  </ol>
+
+  <h2>Connection isn't working?</h2>
+  <p>Run the <a href="/test/">connection test</a> — it'll check if your computer can reach my server. If that fails, your firewall or network is likely blocking. Text me and we'll find a workaround.</p>
+
+  <footer>
+    <div>© 2026 Jonathan Ellis · jonathanellis.dev</div>
+    <div>
+      <a href="/">Home</a> ·
+      <a href="/key/">Key</a> ·
+      <a href="/test/">Test</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
