@@ -33,9 +33,11 @@
   </p>
 
   <div class="btn-row">
-    <a class="btn primary" href="/install/">Install RustDesk <span>→</span></a>
+    <a class="btn primary" id="primary-download" href="/install/">Install RustDesk <span>→</span></a>
+    <a class="btn" href="/install/">Full install guide</a>
     <a class="btn" href="#how-it-works">How it works</a>
   </div>
+  <div id="download-detail" style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:0.04em;"></div>
 
   <h2 id="how-it-works">How it works in 30 seconds</h2>
   <ol class="steps">
@@ -57,7 +59,7 @@
     </a>
     <a class="platform" href="/install/#mac">
       <div class="os">macOS</div>
-      <div class="ext">12+</div>
+      <div class="ext">11+ (Big Sur, Monterey, Ventura, Sonoma, Sequoia)</div>
     </a>
     <a class="platform" href="/install/#linux">
       <div class="os">Linux</div>
@@ -108,5 +110,90 @@
     </div>
   </footer>
 </div>
+
+<script>
+(function () {
+  const RUSTDESK_VERSION = '1.4.2';
+  const base = `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}`;
+
+  // Pre-configured Windows .exe — RustDesk reads server config from the filename.
+  const winFilename =
+    `rustdesk-licensed-${RUSTDESK_VERSION}-x86_64-host=rustdesk.jonathanellis.dev,key=JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=.exe`;
+
+  function detect() {
+    const ua = navigator.userAgent;
+    const uad = navigator.userAgentData;
+
+    // Mobile first
+    if (/iPhone|iPad|iPod/.test(ua) || (uad && uad.platform === 'iOS')) {
+      return {
+        os: 'iOS',
+        detail: 'Get RustDesk from the App Store',
+        href: 'https://apps.apple.com/app/rustdesk-remote-desktop/id1581225015',
+        external: true,
+      };
+    }
+    if (/Android/.test(ua)) {
+      return {
+        os: 'Android',
+        detail: 'Get RustDesk from Google Play',
+        href: 'https://play.google.com/store/apps/details?id=com.carriez.flutter_hbb',
+        external: true,
+      };
+    }
+
+    // Mac — distinguish Apple Silicon vs Intel as best we can
+    if (/Macintosh|Mac OS X/.test(ua) || (uad && uad.platform === 'macOS')) {
+      // Heuristic: if the platform string mentions Intel, it's Intel. Otherwise default to Apple Silicon.
+      const isIntel =
+        /Intel/i.test(ua) ||
+        (uad && uad.architecture === 'x86');
+      // If we can't tell, default to Apple Silicon (newer Macs are more common now).
+      const arch = isIntel ? 'x86_64' : 'aarch64';
+      const label = isIntel ? 'Intel Mac' : 'Apple Silicon Mac';
+      return {
+        os: 'macOS',
+        detail: `Detected: ${label} · RustDesk ${RUSTDESK_VERSION}`,
+        href: `${base}/rustdesk-${RUSTDESK_VERSION}-${arch}.dmg`,
+        download: true,
+      };
+    }
+
+    // Windows
+    if (/Windows/.test(ua) || (uad && uad.platform === 'Windows')) {
+      return {
+        os: 'Windows',
+        detail: `Pre-configured installer · RustDesk ${RUSTDESK_VERSION}`,
+        href: `${base}/${winFilename}`,
+        download: true,
+      };
+    }
+
+    // Linux
+    if (/Linux/.test(ua) || (uad && uad.platform === 'Linux')) {
+      return {
+        os: 'Linux',
+        detail: `AppImage · RustDesk ${RUSTDESK_VERSION}`,
+        href: `${base}/rustdesk-${RUSTDESK_VERSION}-x86_64.AppImage`,
+        download: true,
+      };
+    }
+
+    return null;
+  }
+
+  const btn = document.getElementById('primary-download');
+  const detail = document.getElementById('download-detail');
+  const result = detect();
+
+  if (!result || !btn) return;
+
+  btn.href = result.href;
+  if (result.download) btn.setAttribute('download', '');
+  if (result.external) btn.setAttribute('target', '_blank');
+  btn.innerHTML = `Download for ${result.os} <span>↓</span>`;
+  if (detail) detail.textContent = result.detail + '  ·  Need a different version? Use the full install guide.';
+})();
+</script>
 </body>
 </html>

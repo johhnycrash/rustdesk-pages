@@ -4,134 +4,471 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Install RustDesk — Jonathan Ellis</title>
-<meta name="description" content="Platform-specific instructions to install RustDesk and connect to Jonathan Ellis's server.">
+<meta name="description" content="One-click RustDesk install tailored to your device.">
 <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/shared.css">
+<style>
+  /* OS detection card */
+  .detected-os {
+    background: linear-gradient(180deg, rgba(0,255,64,0.08), rgba(0,255,64,0.02));
+    border: 1px solid rgba(0,255,64,0.3);
+    border-radius: 14px;
+    padding: 32px 28px;
+    margin: 30px 0 36px;
+    text-align: center;
+  }
+  .detected-os .os-name {
+    font-family: 'Cormorant', Georgia, serif;
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--green);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .detected-os .os-detail {
+    color: var(--bone-dim);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .detected-os .btn {
+    font-size: 15px;
+    padding: 16px 28px;
+  }
+  .detected-os .alt-link {
+    display: block;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .detected-os .alt-link a {
+    color: var(--bone-dim);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+  }
+  .detected-os .alt-link a:hover { color: var(--green); }
+
+  details.platform-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  details.platform-block[open] { border-color: rgba(0,255,64,0.2); }
+  details.platform-block summary {
+    cursor: pointer;
+    padding: 18px 22px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    color: var(--bone);
+    transition: background 0.15s;
+  }
+  details.platform-block summary::-webkit-details-marker { display: none; }
+  details.platform-block summary:hover { background: rgba(0,255,64,0.03); }
+  details.platform-block summary .arrow {
+    transition: transform 0.2s ease;
+    color: var(--muted);
+  }
+  details.platform-block[open] summary .arrow { transform: rotate(90deg); }
+  details.platform-block .platform-body {
+    padding: 8px 22px 22px;
+    border-top: 1px solid var(--line);
+  }
+  details.platform-block .platform-body h4:first-of-type { margin-top: 14px; }
+
+  .step-list {
+    list-style: none;
+    counter-reset: stp;
+    margin: 12px 0;
+    padding: 0;
+  }
+  .step-list li {
+    counter-increment: stp;
+    padding-left: 44px;
+    position: relative;
+    margin-bottom: 12px;
+    color: var(--bone-dim);
+  }
+  .step-list li::before {
+    content: counter(stp);
+    position: absolute; left: 0; top: -2px;
+    width: 30px; height: 30px;
+    background: rgba(0,255,64,0.08);
+    border: 1px solid rgba(0,255,64,0.25);
+    color: var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  pre {
+    background: #050608;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 8px 0 14px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12.5px;
+    color: var(--bone);
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+
+  .switch-row {
+    display: flex; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .switch-row button {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--bone-dim);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .switch-row button.active {
+    background: var(--green);
+    color: var(--ink);
+    border-color: var(--green);
+  }
+  .switch-row button:not(.active):hover { border-color: var(--green); color: var(--green); }
+</style>
 </head>
 <body>
 <div class="wrap">
-  <nav class="top">
-    <a class="brand" href="/">
-      <img src="/public/logo.svg" alt="JE">
-      Jonathan Ellis<span class="dot">.</span>Dev
-    </a>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/install/" class="active">Install</a></li>
-      <li><a href="/key/">Key</a></li>
-      <li><a href="/test/">Test</a></li>
-    </ul>
-  </nav>
 
-  <div class="kicker">Step by step</div>
-  <h1>Install RustDesk <em>for your device</em></h1>
-  <p class="lede">
-    Pick your operating system below. Each option is pre-configured to connect to my server, so you don't have to copy/paste server settings or public keys manually.
-  </p>
+<nav class="top">
+  <a class="brand" href="/">
+    <img src="/public/logo.svg" alt="JE">
+    Jonathan Ellis<span class="dot">.</span>Dev
+  </a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/install/" class="active">Install</a></li>
+    <li><a href="/key/">Key</a></li>
+    <li><a href="/test/">Test</a></li>
+  </ul>
+</nav>
 
-  <!-- WINDOWS -->
-  <h2 id="windows">Windows</h2>
-  <p><strong>Easiest path:</strong> download the pre-configured installer. The filename contains the server settings, so RustDesk reads them automatically when you install — you don't touch a single setting.</p>
-  <div class="btn-row">
-    <a class="btn primary" href="/downloads/rustdesk-host=rustdesk.jonathanellis.dev,key=JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=.exe" download>Download Windows installer <span>→</span></a>
-  </div>
-  <ol class="steps">
-    <li>Click the green button above. Save the `.exe` file. <strong>Don't rename it</strong> — the filename is what configures it.</li>
-    <li>Double-click the downloaded file. If Windows SmartScreen pops up ("Windows protected your PC"), click <em>More info</em> → <em>Run anyway</em>. The file is safe; this warning appears for all small publishers.</li>
-    <li>Follow the install prompts. Default options are fine.</li>
-    <li>Open RustDesk. You'll see <strong>Your ID</strong> and a <strong>password</strong> on the left. Send me both.</li>
-    <li>Wait for my connection request. Click <em>Accept</em> when you see it.</li>
-  </ol>
+<div class="kicker">Install</div>
+<h1>Set up RustDesk <em>for your device</em></h1>
+<p class="lede">
+  We've detected your device and prepared the right download below. Step-by-step instructions follow. Other platforms are listed at the bottom.
+</p>
 
-  <!-- MAC -->
-  <h2 id="mac">macOS</h2>
-  <p>Install the standard RustDesk app, then run a one-line command that tells it to use my server.</p>
-  <ol class="steps">
-    <li>Download the macOS app: <a href="https://github.com/rustdesk/rustdesk/releases/latest" target="_blank">latest release from GitHub</a>. Grab the `.dmg` for your chip (Apple Silicon: `aarch64.dmg`; Intel: `x86_64.dmg`).</li>
-    <li>Open the `.dmg` and drag RustDesk to Applications.</li>
-    <li>Open Terminal (Cmd+Space → "Terminal"). Paste and press Enter:
-      <pre style="background: rgba(0,255,64,0.05); border: 1px solid rgba(0,255,64,0.2); padding: 14px; border-radius: 8px; font-size: 13px; color: var(--green); overflow-x: auto; margin: 10px 0;">mkdir -p ~/Library/Preferences/com.carriez.RustDesk && cat &gt; ~/Library/Preferences/com.carriez.RustDesk/RustDesk2.toml &lt;&lt;EOF
-[options]
-custom-rendezvous-server = 'rustdesk.jonathanellis.dev'
-relay-server = 'rustdesk.jonathanellis.dev'
-key = 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk='
-EOF</pre>
-    </li>
-    <li>Open RustDesk (Cmd+Space → "RustDesk"). Grant Screen Recording permission when macOS asks.</li>
-    <li>Copy your ID + password from the left side of the app. Send both to me.</li>
-  </ol>
-
-  <!-- LINUX -->
-  <h2 id="linux">Linux</h2>
-  <p>Install the package for your distro, then drop in the config file.</p>
-  <ol class="steps">
-    <li>Grab the package: <a href="https://github.com/rustdesk/rustdesk/releases/latest" target="_blank">latest release on GitHub</a>.
-      <ul style="margin-top: 6px; color: var(--bone-dim); padding-left: 20px;">
-        <li>Ubuntu/Debian → `.deb`</li>
-        <li>Fedora/CentOS → `.rpm`</li>
-        <li>Any distro → `.AppImage` (no install needed)</li>
-      </ul>
-    </li>
-    <li>Install it: <code>sudo apt install ./rustdesk-*.deb</code> (or your distro's equivalent).</li>
-    <li>Drop the config file:
-      <pre style="background: rgba(0,255,64,0.05); border: 1px solid rgba(0,255,64,0.2); padding: 14px; border-radius: 8px; font-size: 13px; color: var(--green); overflow-x: auto; margin: 10px 0;">mkdir -p ~/.config/rustdesk && cat &gt; ~/.config/rustdesk/RustDesk2.toml &lt;&lt;EOF
-[options]
-custom-rendezvous-server = 'rustdesk.jonathanellis.dev'
-relay-server = 'rustdesk.jonathanellis.dev'
-key = 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk='
-EOF</pre>
-    </li>
-    <li>Launch RustDesk from your apps menu. Share ID + password.</li>
-  </ol>
-
-  <!-- iOS -->
-  <h2 id="ios">iPhone / iPad</h2>
-  <p>Apple doesn't let apps ship pre-configured, so there's one extra step: paste a config string into the app.</p>
-  <ol class="steps">
-    <li>Install from App Store: <a href="https://apps.apple.com/app/rustdesk/id1581225015" target="_blank">RustDesk on the App Store</a>.</li>
-    <li>Open the app. Tap the <strong>⚙ Settings</strong> icon (top right or in the menu).</li>
-    <li>Tap <strong>Network</strong>.</li>
-    <li>Fill in:
-      <ul style="margin-top: 6px; color: var(--bone-dim); padding-left: 20px;">
-        <li><strong>ID server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
-        <li><strong>Relay server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
-        <li><strong>Key:</strong> <a href="/key/">open the Key page</a> and tap the Copy button, then paste here.</li>
-      </ul>
-    </li>
-    <li>Tap Apply / Save. Back out to the main screen.</li>
-    <li>Tap your <strong>ID</strong> (or "Set up password" if prompted) to get your connection credentials. Send ID + password to me.</li>
-    <li>When I request connection, tap <em>Accept</em>. For me to see your screen, tap <em>Start Broadcast</em> when prompted — this is Apple's screen-share permission.</li>
-  </ol>
-
-  <!-- ANDROID -->
-  <h2 id="android">Android</h2>
-  <ol class="steps">
-    <li>Install from Play Store: <a href="https://play.google.com/store/apps/details?id=com.carriez.flutter_hbb" target="_blank">RustDesk on Play Store</a>. Or grab the `.apk` from <a href="https://github.com/rustdesk/rustdesk/releases/latest" target="_blank">GitHub releases</a> if Play Store isn't available.</li>
-    <li>Open the app. Grant Screen Capture and Input permissions when asked.</li>
-    <li>Go to <strong>Settings → Network</strong>. Enter:
-      <ul style="margin-top: 6px; color: var(--bone-dim); padding-left: 20px;">
-        <li><strong>ID server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
-        <li><strong>Relay server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
-        <li><strong>Key:</strong> copy from the <a href="/key/">Key page</a>.</li>
-      </ul>
-    </li>
-    <li>Apply. Share your ID + password when I ask.</li>
-  </ol>
-
-  <h2>Connection isn't working?</h2>
-  <p>Run the <a href="/test/">connection test</a> — it'll check if your computer can reach my server. If that fails, your firewall or network is likely blocking. Text me and we'll find a workaround.</p>
-
-  <footer>
-    <div>© 2026 Jonathan Ellis · jonathanellis.dev</div>
-    <div>
-      <a href="/">Home</a> ·
-      <a href="/key/">Key</a> ·
-      <a href="/test/">Test</a>
-    </div>
-  </footer>
+<!-- Auto-detected OS card -->
+<div class="detected-os" id="detected">
+  <div class="os-name" id="osName">Detecting your device…</div>
+  <div class="os-detail" id="osDetail">…</div>
+  <a class="btn primary" id="osDownload" href="#" target="_blank">Download <span>→</span></a>
+  <div class="alt-link" id="osAltLink"></div>
 </div>
+
+<h2 id="instructions-heading">Instructions</h2>
+<div id="instructionsContainer"></div>
+
+<h2 style="margin-top: 60px;">All other platforms</h2>
+<p>If your device wasn't detected correctly, pick from the full list:</p>
+
+<details class="platform-block">
+  <summary><span>🍎 macOS</span><span class="arrow">›</span></summary>
+  <div class="platform-body" data-platform="mac"></div>
+</details>
+
+<details class="platform-block">
+  <summary><span>🪟 Windows</span><span class="arrow">›</span></summary>
+  <div class="platform-body" data-platform="windows"></div>
+</details>
+
+<details class="platform-block">
+  <summary><span>🐧 Linux</span><span class="arrow">›</span></summary>
+  <div class="platform-body" data-platform="linux"></div>
+</details>
+
+<details class="platform-block">
+  <summary><span>📱 iPhone / iPad</span><span class="arrow">›</span></summary>
+  <div class="platform-body" data-platform="ios"></div>
+</details>
+
+<details class="platform-block">
+  <summary><span>🤖 Android</span><span class="arrow">›</span></summary>
+  <div class="platform-body" data-platform="android"></div>
+</details>
+
+<h2>Trouble connecting?</h2>
+<p>Run the <a href="/test/">connection test</a>. If your network blocks RustDesk's ports, try cellular hotspot instead of corporate WiFi.</p>
+
+<footer>
+  <div>© 2026 Jonathan Ellis · jonathanellis.dev</div>
+  <div>
+    <a href="/">Home</a> · <a href="/key/">Key</a> · <a href="/test/">Test</a>
+  </div>
+</footer>
+
+</div>
+
+<!-- Tailored install instructions for each platform.
+     Each div is shown either inline (top) or in the platform <details> blocks (bottom). -->
+<template id="tpl-mac">
+  <div class="switch-row" data-arch>
+    <button data-arch-pick="apple-silicon" class="active">Apple Silicon (M1/M2/M3/M4)</button>
+    <button data-arch-pick="intel">Intel Mac</button>
+  </div>
+
+  <h4>Quick check — which Mac do I have?</h4>
+  <p style="font-size: 13px;">Apple menu (top-left)  →  About This Mac. If "Chip" says <code>Apple M1/M2/M3/M4</code>, that's Apple Silicon. If it says <code>Intel</code>, that's Intel.</p>
+
+  <div class="note" style="background:rgba(0,255,64,0.04);border:1px solid rgba(0,255,64,0.18);border-radius:10px;padding:12px 16px;margin:14px 0;font-size:13px;">
+    <strong>Older Mac on Big Sur (macOS 11) or Monterey (12)?</strong> RustDesk works. Pick <strong>Intel Mac</strong> above and grab the standard <code>.dmg</code>. If the latest version refuses to open, fall back to RustDesk 1.3.9: <a href="https://github.com/rustdesk/rustdesk/releases/download/1.3.9/rustdesk-1.3.9-x86_64.dmg" target="_blank">rustdesk-1.3.9-x86_64.dmg</a> (known-good on macOS 10.14 through 14).
+  </div>
+
+  <h4>Step-by-step</h4>
+  <ol class="step-list">
+    <li>Click the green <strong>Download</strong> button. A <code>.dmg</code> file lands in your Downloads folder.</li>
+    <li>Double-click the <code>.dmg</code>. A window pops up with the RustDesk icon.</li>
+    <li>Drag the <strong>RustDesk</strong> icon into the <strong>Applications</strong> folder.</li>
+    <li>Open <strong>Applications</strong>, double-click <strong>RustDesk</strong>.</li>
+    <li>macOS will warn: <em>"RustDesk can't be opened because Apple cannot check it for malicious software."</em> Click <strong>Cancel</strong> on this dialog.</li>
+    <li>Open <strong>System Settings → Privacy &amp; Security</strong>. Scroll down and click <strong>Open Anyway</strong> next to the RustDesk warning. Enter your Mac password.</li>
+    <li>RustDesk opens. macOS will request <strong>Screen Recording</strong> and <strong>Accessibility</strong> permissions. Grant both — they're how I see and control your screen during a session.</li>
+    <li>Configure server (one-time):
+      <pre>mkdir -p ~/Library/Preferences/com.carriez.RustDesk &amp;&amp; cat &gt; ~/Library/Preferences/com.carriez.RustDesk/RustDesk2.toml &lt;&lt;EOF
+[options]
+custom-rendezvous-server = 'rustdesk.jonathanellis.dev'
+relay-server = 'rustdesk.jonathanellis.dev'
+key = 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk='
+EOF</pre>
+      Open <strong>Terminal</strong> (Cmd+Space, type "Terminal"), paste the above, hit Enter. Quit and reopen RustDesk so the config loads.
+    </li>
+    <li>You'll see your <strong>ID</strong> (9-digit number) and <strong>password</strong> in the app. Send those to Jonathan.</li>
+    <li>When Jonathan requests connection, click <strong>Accept</strong> on the prompt.</li>
+  </ol>
+</template>
+
+<template id="tpl-windows">
+  <h4>Step-by-step</h4>
+  <ol class="step-list">
+    <li>Click the green <strong>Download</strong> button. The downloaded file is <strong>pre-configured</strong> for Jonathan's server — the filename itself contains the settings, so don't rename it.</li>
+    <li>Double-click the downloaded <code>.exe</code>.</li>
+    <li>Windows SmartScreen may show: <em>"Windows protected your PC"</em>. Click <strong>More info</strong> → <strong>Run anyway</strong>. (Safe — this warning appears for all small publishers.)</li>
+    <li>Follow the install prompts. Default options are fine.</li>
+    <li>Open RustDesk from the Start menu.</li>
+    <li>You'll see your <strong>ID</strong> and <strong>password</strong> on the left side of the app window. Send those to Jonathan.</li>
+    <li>When Jonathan requests connection, click <strong>Accept</strong>.</li>
+  </ol>
+</template>
+
+<template id="tpl-linux">
+  <div class="switch-row" data-distro>
+    <button data-distro-pick="appimage" class="active">AppImage (any distro)</button>
+    <button data-distro-pick="deb">Debian/Ubuntu (.deb)</button>
+    <button data-distro-pick="rpm">Fedora/RHEL (.rpm)</button>
+  </div>
+
+  <h4>Step-by-step</h4>
+  <ol class="step-list">
+    <li>Click <strong>Download</strong> (file lands in <code>~/Downloads</code>).</li>
+    <li class="install-step" data-distro-show="appimage">Make it executable: <pre>chmod +x ~/Downloads/rustdesk-*.AppImage</pre></li>
+    <li class="install-step" data-distro-show="deb">Install: <pre>sudo apt install ~/Downloads/rustdesk-*.deb</pre></li>
+    <li class="install-step" data-distro-show="rpm">Install: <pre>sudo dnf install ~/Downloads/rustdesk-*.rpm</pre></li>
+    <li>Configure server (one-time):
+      <pre>mkdir -p ~/.config/rustdesk &amp;&amp; cat &gt; ~/.config/rustdesk/RustDesk2.toml &lt;&lt;EOF
+[options]
+custom-rendezvous-server = 'rustdesk.jonathanellis.dev'
+relay-server = 'rustdesk.jonathanellis.dev'
+key = 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk='
+EOF</pre>
+    </li>
+    <li>Launch RustDesk (from your apps menu, or run the AppImage directly).</li>
+    <li>Send Jonathan your ID and password.</li>
+  </ol>
+</template>
+
+<template id="tpl-ios">
+  <h4>Step-by-step</h4>
+  <ol class="step-list">
+    <li>Tap <strong>Download</strong>. App Store opens. Tap <strong>Get</strong> to install RustDesk.</li>
+    <li>Open RustDesk. Tap the <strong>⚙ Settings</strong> icon.</li>
+    <li>Tap <strong>Network</strong>. Fill in:
+      <ul style="margin-top: 8px; color: var(--bone-dim); padding-left: 20px;">
+        <li><strong>ID server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Relay server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Key:</strong> <code>JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=</code> &nbsp;<a href="/key/">(copy from Key page)</a></li>
+      </ul>
+    </li>
+    <li>Tap <strong>Apply</strong>. Back out to the main screen.</li>
+    <li>Send Jonathan your ID and password.</li>
+    <li>When Jonathan requests connection, tap <strong>Accept</strong>. To share your screen, iOS will prompt for <strong>Start Broadcast</strong> permission — tap it.</li>
+  </ol>
+  <p style="font-size: 13.5px; color: var(--muted); margin-top: 14px;">
+    <strong>Apple's restriction:</strong> Jonathan can SEE your iPhone screen but cannot tap or swipe — only iOS itself controls your phone. He'll guide you verbally while watching.
+  </p>
+</template>
+
+<template id="tpl-android">
+  <h4>Step-by-step</h4>
+  <ol class="step-list">
+    <li>Tap <strong>Download</strong>. Play Store opens. Tap <strong>Install</strong>.</li>
+    <li>Open RustDesk. Grant permissions when prompted: <strong>Display over other apps</strong>, <strong>Accessibility</strong>, <strong>Screen Capture</strong>.</li>
+    <li>Tap <strong>⚙ Settings → Network</strong>. Enter:
+      <ul style="margin-top: 8px; color: var(--bone-dim); padding-left: 20px;">
+        <li><strong>ID server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Relay server:</strong> <code>rustdesk.jonathanellis.dev</code></li>
+        <li><strong>Key:</strong> from the <a href="/key/">Key page</a></li>
+      </ul>
+    </li>
+    <li>Tap Apply.</li>
+    <li>Send Jonathan your ID and password.</li>
+    <li>Accept the connection prompt. Tap <strong>Start now</strong> on the screen-share dialog.</li>
+  </ol>
+</template>
+
+<script>
+  // === Latest RustDesk version + download URLs ===
+  const RUSTDESK_VERSION = '1.4.2';   // Update when new release lands
+  const SERVER_HOST = 'rustdesk.jonathanellis.dev';
+  const SERVER_KEY  = 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=';
+
+  const URLS = {
+    macAS:    `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-aarch64.dmg`,
+    macIntel: `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-x86_64.dmg`,
+    windows:  `/downloads/rustdesk-host=${SERVER_HOST},key=${SERVER_KEY}=.exe`,
+    windowsFallback: `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-x86_64.exe`,
+    linuxAppImage: `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-x86_64.AppImage`,
+    linuxDeb:      `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-x86_64.deb`,
+    linuxRpm:      `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-0.x86_64.rpm`,
+    ios:           `https://apps.apple.com/app/rustdesk/id1581225015`,
+    android:       `https://play.google.com/store/apps/details?id=com.carriez.flutter_hbb`,
+  };
+
+  // === OS detection ===
+  function detectOS() {
+    const ua = navigator.userAgent;
+    const platform = (navigator.userAgentData?.platform || navigator.platform || '').toLowerCase();
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
+
+    if (/iPhone|iPad|iPod/i.test(ua)) return { id: 'ios', name: 'iPhone / iPad', detail: 'iOS device detected' };
+    if (/Android/i.test(ua))           return { id: 'android', name: 'Android', detail: 'Android device detected' };
+    if (/Win/i.test(platform) || /Windows/i.test(ua)) return { id: 'windows', name: 'Windows', detail: 'Pre-configured installer ready' };
+    if (/Linux/i.test(platform))       return { id: 'linux', name: 'Linux', detail: 'AppImage works on any distro' };
+    if (/Mac/i.test(platform) || /Mac OS/i.test(ua)) {
+      // Apple Silicon hint — not 100% accurate but a reasonable default
+      const arch = navigator.userAgentData?.architecture || '';
+      const isAS = arch.includes('arm') || /Mac OS X 1[3-9]|Mac OS X 14|Mac OS X 15/.test(ua);
+      return { id: 'mac', name: 'macOS', detail: 'Defaulting to Apple Silicon. Wrong? Click Intel Mac below.', initialArch: 'apple-silicon' };
+    }
+    return { id: 'unknown', name: 'Unknown device', detail: 'Pick your platform from the list below.' };
+  }
+
+  // === Apply detection ===
+  const os = detectOS();
+  const $name    = document.getElementById('osName');
+  const $detail  = document.getElementById('osDetail');
+  const $btn     = document.getElementById('osDownload');
+  const $altLink = document.getElementById('osAltLink');
+  const $instr   = document.getElementById('instructionsContainer');
+
+  function setDownload(os, archOrVariant) {
+    let url, label, alt = '';
+    switch (os) {
+      case 'mac':
+        if (archOrVariant === 'intel') { url = URLS.macIntel; label = 'Download for Intel Mac'; }
+        else                          { url = URLS.macAS;    label = 'Download for Apple Silicon Mac'; }
+        alt = `<a href="${URLS[archOrVariant === 'intel' ? 'macAS' : 'macIntel']}" target="_blank">Wrong Mac type? Get the ${archOrVariant === 'intel' ? 'Apple Silicon' : 'Intel'} build instead.</a>`;
+        break;
+      case 'windows':
+        url = URLS.windows;
+        label = 'Download for Windows (pre-configured)';
+        alt = `<a href="${URLS.windowsFallback}" target="_blank">Plain installer (manual config)</a>`;
+        break;
+      case 'linux':
+        if (archOrVariant === 'deb')      { url = URLS.linuxDeb; label = 'Download .deb (Debian/Ubuntu)'; }
+        else if (archOrVariant === 'rpm') { url = URLS.linuxRpm; label = 'Download .rpm (Fedora/RHEL)'; }
+        else                              { url = URLS.linuxAppImage; label = 'Download AppImage (any distro)'; }
+        break;
+      case 'ios':
+        url = URLS.ios; label = 'Open App Store'; break;
+      case 'android':
+        url = URLS.android; label = 'Open Play Store'; break;
+      default:
+        url = '#'; label = 'Pick a platform below'; break;
+    }
+    $btn.href = url;
+    $btn.innerHTML = label + ' <span>→</span>';
+    $altLink.innerHTML = alt;
+  }
+
+  // Initialize detection card
+  $name.textContent = os.name;
+  $detail.textContent = os.detail;
+  setDownload(os.id, os.initialArch);
+
+  // === Render tailored instructions ===
+  function renderInstructions(platformId, target = $instr) {
+    const tpl = document.getElementById('tpl-' + platformId);
+    if (!tpl) {
+      target.innerHTML = `<p style="color: var(--muted);">Pick a platform from the list below for instructions.</p>`;
+      return;
+    }
+    target.innerHTML = '';
+    target.appendChild(tpl.content.cloneNode(true));
+
+    // Wire up arch switcher (Mac)
+    target.querySelectorAll('[data-arch]').forEach(row => {
+      row.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          row.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          if (target === $instr) setDownload('mac', btn.dataset.archPick);
+        });
+      });
+    });
+
+    // Wire up distro switcher (Linux)
+    target.querySelectorAll('[data-distro]').forEach(row => {
+      row.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          row.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const pick = btn.dataset.distroPick;
+          // Show the right install step
+          target.querySelectorAll('.install-step').forEach(s => {
+            s.style.display = (s.dataset.distroShow === pick) ? '' : 'none';
+          });
+          if (target === $instr) setDownload('linux', pick);
+        });
+      });
+    });
+
+    // Initial visibility for Linux install steps
+    const distroDefault = target.querySelector('[data-distro-show="appimage"]');
+    if (distroDefault) {
+      target.querySelectorAll('.install-step').forEach(s => {
+        s.style.display = (s.dataset.distroShow === 'appimage') ? '' : 'none';
+      });
+    }
+  }
+
+  renderInstructions(os.id);
+
+  // Populate the platform <details> blocks too
+  document.querySelectorAll('[data-platform]').forEach(div => {
+    renderInstructions(div.dataset.platform, div);
+  });
+</script>
 </body>
 </html>
