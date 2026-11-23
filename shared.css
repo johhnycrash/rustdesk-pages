@@ -248,7 +248,67 @@ footer a { color: var(--bone-dim); }
 .status-dot.pending { background: #fbbf24; animation: pulse 1s ease infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
+.guide {
+  background: linear-gradient(180deg, rgba(0,255,64,0.07), rgba(0,255,64,0.015));
+  border: 1px solid rgba(0,255,64,0.28);
+  border-radius: 16px;
+  padding: 24px 26px 20px;
+  margin: 0 0 20px;
+}
+.os-switch { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.os-switch button {
+  min-height: 40px;
+  padding: 8px 15px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--bone-dim);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.os-switch button:hover { border-color: var(--green); color: var(--green); }
+.os-switch button.active { background: var(--green); border-color: var(--green); color: var(--ink); font-weight: 600; }
+.os-switch button:focus-visible, .copy-btn:focus-visible, .guide-cta:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.guide-title { margin: 0 0 16px; }
+.guide-action { margin-bottom: 24px; }
+.guide-cta { font-size: 16px; padding: 16px 28px; }
+.copy-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.copy-text { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.copy-text span { color: var(--muted); font-size: 12px; }
+.copy-text code { background: none; border: 0; padding: 0; overflow-wrap: anywhere; }
+.copy-row .copy-btn { flex: none; min-height: 40px; }
+.guide-settings { margin-top: 8px; }
+.guide-version { color: var(--muted); font-size: 12px; margin-top: 10px; }
+kbd {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(239,239,239,0.06);
+}
+
 @media (max-width: 640px) {
-  .wrap { padding: 24px 18px 60px; }
+  .wrap { padding: 24px 16px 60px; }
+  nav.top { flex-wrap: wrap; gap: 12px; padding-bottom: 28px; }
   nav.top ul { gap: 14px; }
+  .guide { padding: 18px 16px 16px; }
+  .guide-cta { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn, .platform, .os-switch button { transition: none; }
+  .btn:hover, .platform:hover { transform: none; }
+  .status-dot.pending { animation: none; }
 }

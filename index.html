@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RustDesk — Jonathan Ellis support</title>
-<meta name="description" content="Install RustDesk to let Jonathan Ellis provide remote support. Free, secure, private — self-hosted on his own server.">
+<meta name="description" content="Set up RustDesk in about a minute so Jonathan Ellis can provide remote support with your permission.">
 <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,79 +27,38 @@
   </nav>
 
   <div class="kicker">Remote support</div>
-  <h1>Let me see your screen. <em>Privately.</em></h1>
-  <p class="lede">
-    RustDesk is a free, open-source remote desktop tool. When you install it and connect to my server, I can see your screen (with your permission) and help diagnose what's going on. Sessions are encrypted, peer-to-peer, and never touch a third-party cloud — the whole thing runs on my own server in Nuremberg.
-  </p>
+  <h1>Get help on your screen. <em>You stay in control.</em></h1>
+  <p class="lede">Set up RustDesk once. After that, Jonathan can request a session, and nothing happens until you click Accept.</p>
 
-  <div class="btn-row">
-    <a class="btn primary" id="primary-download" href="/install/">Install RustDesk <span>→</span></a>
-    <a class="btn" href="/install/">Full install guide</a>
-    <a class="btn" href="#how-it-works">How it works</a>
-  </div>
-  <div id="download-detail" style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:0.04em;"></div>
-
-  <h2 id="how-it-works">How it works in 30 seconds</h2>
-  <ol class="steps">
-    <li>You download RustDesk from the <a href="/install/">install page</a>. It's pre-configured for my server — no settings to fiddle with.</li>
-    <li>You open the app. You'll see a 9-digit <strong>ID</strong> and a <strong>password</strong>.</li>
-    <li>You tell me your ID + password (phone, email, text — however).</li>
-    <li>I connect from my end. You see a prompt: <em>"Jonathan wants to view your screen. Accept?"</em> Click Accept.</li>
-    <li>I see your screen. For Windows/Mac/Linux, I can also move your mouse and type for you. On iPhone, I can only see — Apple doesn't let any remote app tap the screen.</li>
-    <li>When I'm done, I disconnect. You can uninstall RustDesk anytime.</li>
-  </ol>
-
-  <h2>Pick your platform</h2>
-  <p>Click your operating system to go to the right install instructions:</p>
-
-  <div class="platform-grid">
-    <a class="platform" href="/install/#windows">
-      <div class="os">Windows</div>
-      <div class="ext">10, 11</div>
-    </a>
-    <a class="platform" href="/install/#mac">
-      <div class="os">macOS</div>
-      <div class="ext">11+ (Big Sur, Monterey, Ventura, Sonoma, Sequoia)</div>
-    </a>
-    <a class="platform" href="/install/#linux">
-      <div class="os">Linux</div>
-      <div class="ext">deb · rpm · AppImage</div>
-    </a>
-    <a class="platform" href="/install/#ios">
-      <div class="os">iPhone / iPad</div>
-      <div class="ext">App Store</div>
-    </a>
-    <a class="platform" href="/install/#android">
-      <div class="os">Android</div>
-      <div class="ext">Play Store · APK</div>
-    </a>
-  </div>
+  <section class="guide" id="guide" aria-label="RustDesk setup">
+    <p>Open the <a href="/install/">install page</a> for setup instructions.</p>
+  </section>
 
   <h2>Common questions</h2>
 
   <div class="card">
-    <h3>Is this safe? Can you see my stuff when I'm not there?</h3>
-    <p>No. I can only connect when you click "Accept" on your screen, and I only see what's there while we're connected. When you close RustDesk — or just click "Disconnect" — I'm out. You can uninstall the app completely after we're done if you want.</p>
+    <h3>Can you see my computer when I'm not there?</h3>
+    <p>Not without your approval. RustDesk may keep running in the background so Jonathan can see that your computer is online, but each session needs you to click Accept. You can end it at any time, and you never need to send a password.</p>
   </div>
 
   <div class="card">
-    <h3>Do I have to pay? Is there a time limit?</h3>
-    <p>No and no. RustDesk is free and open-source, and I run the server myself — so no 40-minute Zoom cutoffs, no "you've hit your free tier" nonsense. Sessions can last as long as we need.</p>
+    <h3>What information does Jonathan's device list show?</h3>
+    <p>Your RustDesk ID, computer name, username, operating system, RustDesk version, and when your computer was last online. It doesn't include your files or screen. Uninstalling RustDesk stops these updates.</p>
   </div>
 
   <div class="card">
-    <h3>What data goes through your server?</h3>
-    <p>Only the initial "handshake" that pairs my computer to yours. Once paired, the video/audio/control stream goes <strong>directly</strong> between our two computers (peer-to-peer, encrypted). My server just introduces us and then steps out.</p>
+    <h3>Does it cost anything?</h3>
+    <p>No. RustDesk is free and open-source, and sessions have no time limit.</p>
   </div>
 
   <div class="card">
-    <h3>Can you control my iPhone too?</h3>
-    <p>I can <em>see</em> your iPhone screen if you start Screen Broadcast in RustDesk, but I can't tap or swipe for you — Apple blocks that for all third-party apps. For iPhone problems, we usually work through it verbally: you tap, I watch and guide.</p>
+    <h3>Where does the connection go?</h3>
+    <p>Jonathan's own server introduces the two computers. The encrypted session then runs directly between them when possible, or through that same server when a network blocks a direct connection.</p>
   </div>
 
   <div class="card">
     <h3>What if it doesn't connect?</h3>
-    <p>Head to the <a href="/test/">test page</a>. It checks whether your computer can reach my server. If the test fails, your firewall or corporate network might be blocking the connection — message me and we'll figure out an alternative.</p>
+    <p>Run the <a href="/test/">connection check</a>, then contact Jonathan. Workplace networks sometimes block remote support tools, and a phone hotspot is a quick way to confirm that.</p>
   </div>
 
   <footer>
@@ -110,90 +69,6 @@
     </div>
   </footer>
 </div>
-
-<script>
-(function () {
-  const RUSTDESK_VERSION = '1.4.2';
-  const base = `https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}`;
-
-  // Pre-configured Windows .exe — RustDesk reads server config from the filename.
-  const winFilename =
-    `rustdesk-licensed-${RUSTDESK_VERSION}-x86_64-host=rustdesk.jonathanellis.dev,key=JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=.exe`;
-
-  function detect() {
-    const ua = navigator.userAgent;
-    const uad = navigator.userAgentData;
-
-    // Mobile first
-    if (/iPhone|iPad|iPod/.test(ua) || (uad && uad.platform === 'iOS')) {
-      return {
-        os: 'iOS',
-        detail: 'Get RustDesk from the App Store',
-        href: 'https://apps.apple.com/app/rustdesk-remote-desktop/id1581225015',
-        external: true,
-      };
-    }
-    if (/Android/.test(ua)) {
-      return {
-        os: 'Android',
-        detail: 'Get RustDesk from Google Play',
-        href: 'https://play.google.com/store/apps/details?id=com.carriez.flutter_hbb',
-        external: true,
-      };
-    }
-
-    // Mac — distinguish Apple Silicon vs Intel as best we can
-    if (/Macintosh|Mac OS X/.test(ua) || (uad && uad.platform === 'macOS')) {
-      // Heuristic: if the platform string mentions Intel, it's Intel. Otherwise default to Apple Silicon.
-      const isIntel =
-        /Intel/i.test(ua) ||
-        (uad && uad.architecture === 'x86');
-      // If we can't tell, default to Apple Silicon (newer Macs are more common now).
-      const arch = isIntel ? 'x86_64' : 'aarch64';
-      const label = isIntel ? 'Intel Mac' : 'Apple Silicon Mac';
-      return {
-        os: 'macOS',
-        detail: `Detected: ${label} · RustDesk ${RUSTDESK_VERSION}`,
-        href: `${base}/rustdesk-${RUSTDESK_VERSION}-${arch}.dmg`,
-        download: true,
-      };
-    }
-
-    // Windows
-    if (/Windows/.test(ua) || (uad && uad.platform === 'Windows')) {
-      return {
-        os: 'Windows',
-        detail: `Pre-configured installer · RustDesk ${RUSTDESK_VERSION}`,
-        href: `${base}/${winFilename}`,
-        download: true,
-      };
-    }
-
-    // Linux
-    if (/Linux/.test(ua) || (uad && uad.platform === 'Linux')) {
-      return {
-        os: 'Linux',
-        detail: `AppImage · RustDesk ${RUSTDESK_VERSION}`,
-        href: `${base}/rustdesk-${RUSTDESK_VERSION}-x86_64.AppImage`,
-        download: true,
-      };
-    }
-
-    return null;
-  }
-
-  const btn = document.getElementById('primary-download');
-  const detail = document.getElementById('download-detail');
-  const result = detect();
-
-  if (!result || !btn) return;
-
-  btn.href = result.href;
-  if (result.download) btn.setAttribute('download', '');
-  if (result.external) btn.setAttribute('target', '_blank');
-  btn.innerHTML = `Download for ${result.os} <span>↓</span>`;
-  if (detail) detail.textContent = result.detail + '  ·  Need a different version? Use the full install guide.';
-})();
-</script>
+<script src="/guide.js" defer></script>
 </body>
 </html>

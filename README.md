@@ -9,31 +9,25 @@ rustdesk-pages/
 ├── index.html                ← landing page
 ├── install/index.html        ← per-OS install instructions
 ├── key/index.html            ← public key + server address (copy buttons)
-├── test/index.html           ← browser-based connection test
+├── test/index.html           ← connection troubleshooting
+├── guide.js                  ← OS-detecting setup guide used by the pages
 ├── shared.css                ← brand style tokens, components, typography
 ├── public/
 │   ├── logo.svg              ← J monogram, green
 │   └── favicon.svg           ← favicon with charcoal circle background
-├── downloads/                ← put pre-configured Windows installer here
-│   └── rustdesk-host=rustdesk.jonathanellis.dev,key=JJ84...Pk=.exe
 └── README.md
 ```
 
-## Pre-configured Windows installer
+## Downloads and setup
 
-The Windows download works by encoding server settings into the FILENAME. To create it:
+Nothing here needs updating when RustDesk releases a new version. The `rustdesk-gateway` service at `/opt/rustdesk-gateway` on the server handles these routes on this domain:
 
-1. Download the standard latest Windows installer from https://github.com/rustdesk/rustdesk/releases/latest (file name like `rustdesk-1.x.x-x86_64.exe`).
-2. Rename it exactly to:
+- `/download/<platform>` serves the latest verified release. Windows installers carry the server settings in their file name.
+- `/setup/mac` and `/setup/linux` are the one-line installers.
+- `/api/latest` reports the current version.
+- `/api/heartbeat` and `/api/sysinfo` receive device check-ins for the Client devices page in HQ.
 
-   ```
-   rustdesk-host=rustdesk.jonathanellis.dev,key=JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=.exe
-   ```
-
-3. Drop it into `downloads/` in this repo. Commit. Push.
-4. The download link on `/install/` already points to that exact filename.
-
-If the RustDesk public key changes in the future (e.g. server rebuild), update the `key=` section in that filename AND in `key/index.html` + `install/index.html` + `test/index.html`.
+If the RustDesk public key changes (for example, after a server rebuild), update `RD_KEY` in the gateway and `SERVER.key` in `guide.js`, plus any key shown in `key/index.html`.
 
 ## Local dev
 
