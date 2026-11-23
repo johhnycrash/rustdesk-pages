@@ -6,7 +6,7 @@
     key: 'JJ84OHiivky8RCgfbA9JUa801qBTpRIgDARzrFYEIPk=',
   };
   const RELEASES = 'https://github.com/rustdesk/rustdesk/releases/latest';
-  const READY = 'Tell Jonathan you\'re ready. When the connection request appears, click <strong>Accept</strong>.';
+  const READY = 'Tell Jonathan you\'re ready. When the connection request appears, click <strong>Accept</strong>. Only accept a request you\'re expecting from Jonathan.';
   const MOBILE_SETTINGS = 'Open RustDesk\'s <strong>Settings</strong>, choose <strong>ID/Relay server</strong>, and copy in the four values below.';
   const DESKTOP_SETTINGS = 'Open RustDesk\'s <strong>Settings</strong>, choose <strong>Network</strong>, then <strong>ID/Relay server</strong>, and copy in the four values below.';
 
@@ -54,7 +54,7 @@
         'Tap the button above and open the downloaded file. Allow your browser to install apps if Android asks.',
         MOBILE_SETTINGS,
         'Go back, open the <strong>Share screen</strong> tab, and start the service.',
-        'Send Jonathan the ID shown in RustDesk. When the connection request appears, tap <strong>Accept</strong>.',
+        'Send Jonathan the ID shown in RustDesk. When the connection request appears, tap <strong>Accept</strong>. Only accept a request you\'re expecting from Jonathan.',
       ],
     },
     ios: {
@@ -64,7 +64,7 @@
       steps: [
         'Tap the button above and install RustDesk.',
         MOBILE_SETTINGS,
-        'Send Jonathan the ID shown in RustDesk. When the connection request appears, tap <strong>Accept</strong>.',
+        'Send Jonathan the ID shown in RustDesk. When the connection request appears, tap <strong>Accept</strong>. Only accept a request you\'re expecting from Jonathan.',
         'Apple lets Jonathan view your screen but not tap for you, so you\'ll be guided through each step.',
       ],
     },
